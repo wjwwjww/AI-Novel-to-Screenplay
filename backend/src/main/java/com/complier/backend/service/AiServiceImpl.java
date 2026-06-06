@@ -108,6 +108,15 @@ public class AiServiceImpl implements AiService {
         if (url.endsWith("/v1/chat/completions") || url.endsWith("/chat/completions")) {
             return url;
         }
+
+        // Handle Gemini OpenAI endpoint specifically (e.g., ends in /openai or /openai/)
+        if (url.contains("/openai")) {
+            if (url.endsWith("/")) {
+                return url + "chat/completions";
+            } else {
+                return url + "/chat/completions";
+            }
+        }
         
         if (url.endsWith("/v1") || url.endsWith("/v1/")) {
             if (url.endsWith("/")) {

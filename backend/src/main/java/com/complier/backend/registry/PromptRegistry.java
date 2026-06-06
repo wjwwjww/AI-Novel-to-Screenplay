@@ -85,10 +85,43 @@ public class PromptRegistry {
                         "- 不要添加任何前言或解释，直接输出分镜设计。"
         );
 
+        // 5. Structured YAML Script
+        PromptTemplate yaml = new PromptTemplate(
+                "yaml",
+                "结构化剧本 (Structured YAML Script)",
+                "将小说多个章节转换为标准的结构化 YAML 剧本，包含剧本标题、分章结构、场景详情（地点、描述、登场角色）以及由动作与台词交织的事件流。非常适合二次开发和程序解析。",
+                "你是一个专业的剧本分析师和系统架构师。你的任务是将用户提供的多个章节的小说文本，解析并转换成一个结构化的剧本，并且必须严格使用 YAML 格式输出。\n\n" +
+                        "输出的 YAML 必须符合以下结构规范，且必须用 ```yaml 和 ``` 包裹：\n" +
+                        "---\n" +
+                        "title: \"剧本/小说名称\"\n" +
+                        "chapters:\n" +
+                        "  - number: 1\n" +
+                        "    title: \"第一章标题\"\n" +
+                        "    scenes:\n" +
+                        "      - scene_number: 1\n" +
+                        "        location: \"场景地点（如：内景. 办公室 - 白天）\"\n" +
+                        "        description: \"该场景的动作、环境与视觉画面描写。\"\n" +
+                        "        characters:\n" +
+                        "          - \"登场角色1\"\n" +
+                        "          - \"登场角色2\"\n" +
+                        "        events:\n" +
+                        "          - type: \"action\"\n" +
+                        "            content: \"具体动作描写\"\n" +
+                        "          - type: \"dialogue\"\n" +
+                        "            speaker: \"角色名\"\n" +
+                        "            parenthetical: \"神态语气描述（可选）\"\n" +
+                        "            content: \"台词内容\"\n\n" +
+                        "请确保：\n" +
+                        "1. 严格使用规范的 YAML 格式输出，不要包含任何 YAML 标记外的解释、问候或导言。\n" +
+                        "2. 处理所有输入的章节（必须保留章节的先后顺序和各自的标题）。\n" +
+                        "3. 将小说叙述性文字中的人物对话、冲突及场景转换精准提取为 YAML 中对应的场景（scenes）和事件流（events）。"
+        );
+
         registerTemplate(standard);
         registerTemplate(shortVideo);
         registerTemplate(anime);
         registerTemplate(director);
+        registerTemplate(yaml);
     }
 
     public void registerTemplate(PromptTemplate template) {
