@@ -1,4 +1,4 @@
-# Creative Script Studio (AI小说转剧本编辑器) 🎬
+# Creative Script Studio (AI小说转剧本编辑器)🎬
 
 Creative Script Studio 是一款基于 AI（大语言模型）构建的智能小说转剧本编辑器。它旨在帮助小说作家、编剧、短视频创作者及动漫导演快速将传统叙述性小说文本转换为各种专业格式的剧本。
 
