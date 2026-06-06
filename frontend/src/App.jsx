@@ -30,7 +30,7 @@ function App() {
   const [activeTab, setActiveTab] = useState('draft'); // draft | history
   const [converting, setConverting] = useState(false);
   const [loadingStep, setLoadingStep] = useState('');
-  
+
   // Custom API configuration
   const [apiConfig, setApiConfig] = useState({
     apiUrl: '',
@@ -43,7 +43,7 @@ function App() {
   const [novelTitle, setNovelTitle] = useState('觉醒的硅基意识');
   const [screenplayText, setScreenplayText] = useState('');
   const [activeHistoryId, setActiveHistoryId] = useState(null);
-  
+
   // Notification toast
   const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
 
@@ -113,18 +113,18 @@ function App() {
 
     // Basic structure regex checks for YAML format
     if (!rawYaml.includes('title:') && !rawYaml.includes('chapters:')) {
-      setYamlStatus({ 
-        isValid: false, 
-        message: '⚠ YAML 格式缺失核心根字段 (title 或 chapters)' 
+      setYamlStatus({
+        isValid: false,
+        message: '⚠ YAML 格式缺失核心根字段 (title 或 chapters)'
       });
       return;
     }
 
     // Look for indentations & list hyphens
     if (rawYaml.includes('chapters:') && !rawYaml.includes('scenes:') && !rawYaml.includes('events:')) {
-      setYamlStatus({ 
-        isValid: false, 
-        message: '⚠ YAML 缺少细化层级 (scenes 或 events)' 
+      setYamlStatus({
+        isValid: false,
+        message: '⚠ YAML 缺少细化层级 (scenes 或 events)'
       });
       return;
     }
@@ -137,7 +137,7 @@ function App() {
     const nextId = String(Date.now());
     const nextIndex = chapters.length + 1;
     setChapters([
-      ...chapters, 
+      ...chapters,
       { id: nextId, title: `第 ${nextIndex} 章：新章节`, content: '' }
     ]);
     showToast(`已添加新章节 (当前共 ${nextIndex} 章)`, 'success');
@@ -186,7 +186,7 @@ function App() {
 
     setConverting(true);
     setLoadingStep('初始化网络连接...');
-    
+
     // Simulate steps for micro-animations
     const steps = [
       '正在读取并解析多章文本...',
@@ -247,7 +247,7 @@ function App() {
     setScreenplayText(item.screenplayText);
     setActiveHistoryId(item.id);
     setActiveTab('draft');
-    
+
     // Attempt to reconstruct chapters if they are split in database
     // Otherwise, place it in one large text block (handled gracefully)
     const blocks = item.novelText.split('\n\n====================\n\n');
@@ -275,7 +275,7 @@ function App() {
         { id: '3', title: '第 3 章：空', content: '' }
       ]);
     }
-    
+
     showToast(`已成功载入历史版本 #${item.id}`, 'success');
   };
 
@@ -335,8 +335,8 @@ function App() {
             <p className="subtitle">AI小说转剧本编辑器 • 专业结构化 YAML 输出</p>
           </div>
         </div>
-        
-        <button 
+
+        <button
           id="config-toggle-btn"
           className={`btn-icon-label ${showConfig ? 'active' : ''}`}
           onClick={() => setShowConfig(!showConfig)}
@@ -351,32 +351,32 @@ function App() {
           <div className="config-grid">
             <div className="input-group">
               <label htmlFor="api-url-input">LLM Base URL (自定义接口地址)</label>
-              <input 
+              <input
                 id="api-url-input"
-                type="text" 
+                type="text"
                 placeholder="例如: https://api.deepseek.com"
                 value={apiConfig.apiUrl}
-                onChange={e => setApiConfig({...apiConfig, apiUrl: e.target.value})}
+                onChange={e => setApiConfig({ ...apiConfig, apiUrl: e.target.value })}
               />
             </div>
             <div className="input-group">
               <label htmlFor="api-key-input">API Secret Key (密钥)</label>
-              <input 
+              <input
                 id="api-key-input"
-                type="password" 
+                type="password"
                 placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxx"
                 value={apiConfig.apiKey}
-                onChange={e => setApiConfig({...apiConfig, apiKey: e.target.value})}
+                onChange={e => setApiConfig({ ...apiConfig, apiKey: e.target.value })}
               />
             </div>
             <div className="input-group">
               <label htmlFor="api-model-input">Model Name (模型名称)</label>
-              <input 
+              <input
                 id="api-model-input"
-                type="text" 
-                placeholder="例如: gemini-3.5-flash 或 deepseek-chat"
+                type="text"
+                placeholder="例如: deepseek-chat"
                 value={apiConfig.model}
-                onChange={e => setApiConfig({...apiConfig, model: e.target.value})}
+                onChange={e => setApiConfig({ ...apiConfig, model: e.target.value })}
               />
             </div>
           </div>
@@ -386,18 +386,18 @@ function App() {
 
       {/* Main Workspace Layout */}
       <main className="workspace-grid">
-        
+
         {/* Left Side: Input area */}
         <section className="workspace-panel input-panel">
           <div className="panel-header">
             <h2 id="novel-input-title">📖 导入小说文本</h2>
             <div className="novel-meta">
               <label htmlFor="novel-title-input" className="sr-only">小说名称</label>
-              <input 
+              <input
                 id="novel-title-input"
-                type="text" 
-                className="title-input" 
-                placeholder="剧本/小说名称" 
+                type="text"
+                className="title-input"
+                placeholder="剧本/小说名称"
                 value={novelTitle}
                 onChange={e => setNovelTitle(e.target.value)}
               />
@@ -410,17 +410,17 @@ function App() {
                 <div className="chapter-header">
                   <span className="chapter-index"># {index + 1}</span>
                   <label htmlFor={`chapter-title-${chapter.id}`} className="sr-only">章节名称</label>
-                  <input 
+                  <input
                     id={`chapter-title-${chapter.id}`}
-                    type="text" 
-                    className="chapter-title-input" 
+                    type="text"
+                    className="chapter-title-input"
                     placeholder="章节名称(如：第一章：意外遭遇)"
                     value={chapter.title}
                     onChange={e => updateChapter(chapter.id, 'title', e.target.value)}
                   />
-                  <button 
+                  <button
                     type="button"
-                    className="btn-delete-chapter" 
+                    className="btn-delete-chapter"
                     onClick={() => removeChapter(chapter.id)}
                     disabled={chapters.length <= 3}
                     title={chapters.length <= 3 ? "最少需提供3个章节" : "删除章节"}
@@ -429,7 +429,7 @@ function App() {
                   </button>
                 </div>
                 <label htmlFor={`chapter-content-${chapter.id}`} className="sr-only">章节内容</label>
-                <textarea 
+                <textarea
                   id={`chapter-content-${chapter.id}`}
                   className="chapter-textarea"
                   placeholder="请输入或粘贴该章节的正文内容..."
@@ -441,10 +441,10 @@ function App() {
           </div>
 
           <div className="input-footer">
-            <button 
+            <button
               id="add-chapter-btn"
-              type="button" 
-              className="btn-secondary" 
+              type="button"
+              className="btn-secondary"
               onClick={addChapter}
             >
               ➕ 添加新章节
@@ -472,7 +472,7 @@ function App() {
               ) : (
                 // Hardcoded fallbacks if API connection isn't loaded yet
                 <>
-                  <button 
+                  <button
                     className={`style-card ${selectedStyle === 'yaml' ? 'active' : ''}`}
                     onClick={() => setSelectedStyle('yaml')}
                     type="button"
@@ -481,7 +481,7 @@ function App() {
                     <h4>结构化 YAML 剧本</h4>
                     <p>自动输出章节、场景、台词流，支持 YAML 解析与修改。</p>
                   </button>
-                  <button 
+                  <button
                     className={`style-card ${selectedStyle === 'standard' ? 'active' : ''}`}
                     onClick={() => setSelectedStyle('standard')}
                     type="button"
@@ -489,7 +489,7 @@ function App() {
                     <h4>电影标准剧本</h4>
                     <p>传统电影剧本，包含场景头、动作描述和台词。</p>
                   </button>
-                  <button 
+                  <button
                     className={`style-card ${selectedStyle === 'short-video' ? 'active' : ''}`}
                     onClick={() => setSelectedStyle('short-video')}
                     type="button"
@@ -504,9 +504,9 @@ function App() {
 
           {/* Glowing Action Button */}
           <div className="action-container">
-            <button 
+            <button
               id="convert-trigger-btn"
-              type="button" 
+              type="button"
               className={`btn-primary ${converting ? 'loading' : ''}`}
               onClick={handleConvert}
               disabled={converting}
@@ -526,14 +526,14 @@ function App() {
         {/* Right Side: Output area & History log */}
         <section className="workspace-panel output-panel">
           <div className="panel-tabs">
-            <button 
+            <button
               className={`tab-btn ${activeTab === 'draft' ? 'active' : ''}`}
               onClick={() => setActiveTab('draft')}
               type="button"
             >
               📝 剧本初稿
             </button>
-            <button 
+            <button
               className={`tab-btn ${activeTab === 'history' ? 'active' : ''}`}
               onClick={() => setActiveTab('history')}
               type="button"
@@ -550,18 +550,18 @@ function App() {
                   <span className="status-message">{yamlStatus.message}</span>
                 </div>
                 <div className="toolbar-actions">
-                  <button 
-                    type="button" 
-                    className="btn-toolbar" 
+                  <button
+                    type="button"
+                    className="btn-toolbar"
                     onClick={handleCopy}
                     disabled={!screenplayText}
                     title="复制到剪贴板"
                   >
                     📋 复制
                   </button>
-                  <button 
-                    type="button" 
-                    className="btn-toolbar" 
+                  <button
+                    type="button"
+                    className="btn-toolbar"
                     onClick={handleDownload}
                     disabled={!screenplayText}
                     title="保存到本地"
@@ -573,7 +573,7 @@ function App() {
 
               <div className="output-editor-container">
                 <label htmlFor="output-textarea" className="sr-only">生成的剧本内容</label>
-                <textarea 
+                <textarea
                   id="output-textarea"
                   className="output-textarea"
                   placeholder="转换成功后，剧本将在此处显示，你也可以在这里直接进行修改、编辑和打磨..."
@@ -581,7 +581,7 @@ function App() {
                   onChange={e => setScreenplayText(e.target.value)}
                 />
               </div>
-              
+
               <div className="draft-footer">
                 <p>✏️ 支持直接在上方文本框中修改和打磨剧本。可点击右上角“下载”将剧本导出为 YAML 文件格式保存。</p>
               </div>
@@ -591,8 +591,8 @@ function App() {
               {history.length > 0 ? (
                 <div className="history-list">
                   {history.map(item => (
-                    <div 
-                      key={item.id} 
+                    <div
+                      key={item.id}
                       className="history-item-card"
                       onClick={() => loadHistoryItem(item)}
                     >
@@ -608,8 +608,8 @@ function App() {
                       </div>
                       <div className="history-item-actions">
                         <span className="load-hint">点击载入该版本</span>
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           className="btn-delete-history"
                           onClick={(e) => deleteHistoryItem(e, item.id)}
                           title="删除记录"
